@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             body: TabBarView(
               children: [
                 Icon(Icons.home),
-                OpportunitiesPage(title: "Opportunites"),
+                OpportunitiesListPage(),
                 ProfilePage(currentUser),
               ],
             ),

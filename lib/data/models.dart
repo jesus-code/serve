@@ -3,7 +3,9 @@ class Opportunity {
   int id;
   String title;
   String description;
-  String location;
+  String locationAddress;
+  String locationCity;
+  String locationState;
   DateTime start;
   DateTime end;
   int numberVolunteers;
@@ -13,7 +15,9 @@ class Opportunity {
       {this.id,
       this.title,
       this.description,
-      this.location,
+      this.locationAddress,
+      this.locationCity,
+      this.locationState,
       this.start,
       this.end,
       this.numberVolunteers,
@@ -23,7 +27,9 @@ class Opportunity {
     id = json['id'];
     title = json['title'];
     description = json['description'];
-    location = json['location'];
+    locationAddress = json['locationAddress'];
+    locationCity = json['locationCity'];
+    locationState = json['locationState'];
     start = DateTime.parse(json['start']);
     end = DateTime.parse(json['end']);
     numberVolunteers = json['numberVolunteers'];
@@ -35,7 +41,9 @@ class Opportunity {
     data['id'] = this.id;
     data['title'] = this.title;
     data['description'] = this.description;
-    data['location'] = this.location;
+    data['locationAddress'] = this.locationAddress;
+    data['locationCity'] = this.locationCity;
+    data['locationState'] = this.locationState;
     data['start'] = this.start;
     data['end'] = this.end;
     data['numberVolunteers'] = this.numberVolunteers;
