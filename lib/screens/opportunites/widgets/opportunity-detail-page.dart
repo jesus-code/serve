@@ -11,8 +11,7 @@ class OpportunityDetailPage extends StatefulWidget {
       _OpportunityDetailPageState(opportunity);
 }
 
-class _OpportunityDetailPageState extends State<OpportunityDetailPage>
-    with TickerProviderStateMixin {
+class _OpportunityDetailPageState extends State<OpportunityDetailPage> {
   final Opportunity opportunity;
 
   _OpportunityDetailPageState(this.opportunity);
@@ -22,22 +21,8 @@ class _OpportunityDetailPageState extends State<OpportunityDetailPage>
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.chevron_left,
-            size: 40.0,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        backgroundColor: Colors.white,
         title: Text(
           opportunity.title,
-          style: TextStyle(
-            color: Colors.black,
-          ),
         ),
       ),
       body: _buildOpportunityDetailsPage(context),
@@ -45,7 +30,6 @@ class _OpportunityDetailPageState extends State<OpportunityDetailPage>
   }
 
   _buildOpportunityDetailsPage(BuildContext context) {
-
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32.0),
       child: Row(
@@ -59,7 +43,7 @@ class _OpportunityDetailPageState extends State<OpportunityDetailPage>
                 Container(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    opportunity.locationAddress,
+                    opportunity.locationDescription,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -94,25 +78,25 @@ class _OpportunityDetailPageState extends State<OpportunityDetailPage>
 
     Widget textSection = Container(
       padding: const EdgeInsets.all(32.0),
-      child: Text(opportunity.description,
+      child: Text(
+        opportunity.description,
         softWrap: true,
       ),
     );
     return ListView(
-          children: [
-            Image.asset(
-              "",
-              width: 600.0,
-              height: 240.0,
-              fit: BoxFit.cover,
-            ),
-            titleSection,
-            buttonSection,
-            textSection,
-          ],
-        );
+      children: [
+        Image.network(
+          'http://maps.googleapis.com/maps/api/staticmap?center=${opportunity.locationDescription},${opportunity.locationCity}&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyAPLAjRQobfymT4-vp29gZVpKBrauMT6EU&raw=true',
+          width: 600.0,
+          height: 240.0,
+          fit: BoxFit.cover,
+        ),
+        titleSection,
+        buttonSection,
+        textSection,
+      ],
+    );
   }
-
 
   Column _buildButtonColumn(Color color, IconData icon, String label) {
     return Column(

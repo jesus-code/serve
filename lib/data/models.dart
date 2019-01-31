@@ -1,54 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Opportunity {
-  int id;
+  String id;
+  DocumentReference provider;
+  DocumentReference creator;
   String title;
   String description;
-  String locationAddress;
-  String locationCity;
-  String locationState;
   DateTime start;
   DateTime end;
-  int numberVolunteers;
-  List<String> interests;
+  String locationDescription;
+  String locationCity;
+  String locationState;
+  int numVolunteers;
+  bool kidFriendly;
 
   Opportunity(
       {this.id,
+      this.provider,
+      this.creator,
       this.title,
       this.description,
-      this.locationAddress,
-      this.locationCity,
-      this.locationState,
       this.start,
       this.end,
-      this.numberVolunteers,
-      this.interests});
+      this.locationDescription,
+      this.locationCity,
+      this.locationState,
+      this.numVolunteers,
+      this.kidFriendly});
 
-  Opportunity.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    description = json['description'];
-    locationAddress = json['locationAddress'];
-    locationCity = json['locationCity'];
-    locationState = json['locationState'];
-    start = DateTime.parse(json['start']);
-    end = DateTime.parse(json['end']);
-    numberVolunteers = json['numberVolunteers'];
-    interests = json['interests'].cast<String>();
-  }
+  factory Opportunity.fromSnapshot(DocumentSnapshot snapshot) {
+    if (snapshot == null) return null;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['locationAddress'] = this.locationAddress;
-    data['locationCity'] = this.locationCity;
-    data['locationState'] = this.locationState;
-    data['start'] = this.start;
-    data['end'] = this.end;
-    data['numberVolunteers'] = this.numberVolunteers;
-    data['interests'] = this.interests;
-    return data;
+    Map<String, dynamic> data = snapshot.data;
+    return Opportunity(
+        id: snapshot.documentID,
+        // provider: data['provider'].value.documentID,
+        title: data['title'] as String,
+        description: data['description'] as String,
+        start: data['start'],
+        end: data['end'],
+        locationDescription: data['locationDescription'] as String,
+        locationCity: data['locationCity'] as String,
+        locationState: data['locationState'] as String,
+        numVolunteers: data['numVolunteers'] as int,
+        kidFriendly: data['kidFriendly'] as bool);
   }
 }
 
@@ -76,6 +72,7 @@ class Interest {
     return data;
   }
 }
+
 class User {
   String id;
   String firstName;
@@ -93,6 +90,14 @@ class User {
       this.phone,
       this.intertests,
       this.organization});
+
+  User.fromFirebaseUser(FirebaseUser user) {
+    id = user.uid;
+    firstName = user.displayName;
+    // lastName = json['lastName'];
+    email = user.email;
+    phone = user.phoneNumber;
+  }
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];

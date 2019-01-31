@@ -27,9 +27,12 @@ class OpportunitiesListItem extends StatelessWidget {
         );
       },
       title: Text(opportunity.title),
-      subtitle: Text(formatDate(opportunity.start) +
-          " - " +
-          new DateFormat.jm("en_US").format(opportunity.end)),
+      subtitle: Text(
+          opportunity.start != null && opportunity.end != null
+              ? formatDate(opportunity.start) +
+                  " - " +
+                  new DateFormat.jm("en_US").format(opportunity.end)
+              : ""),
     );
   }
 }
