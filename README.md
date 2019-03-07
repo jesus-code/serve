@@ -1,8 +1,15 @@
 # Serve
 
-Find opportunities to serve with your church and their mission partners
+Serve others by volunteering for opportunities created by your church and their mission partners!
 
-## Getting Started
+<img src="appImages/serveHome3-6.png" alt="drawing" width="250"/>
+
+## Basics
+We are using [Firebase](https://firebase.google.com/) because there isn't a great integration with [AWS Appync](https://aws.amazon.com/appsync/) / [Amplify](https://aws.amazon.com/amplify/) and it gives  great flexability to quickly create applications. 
+
+
+
+## Getting Started with Flutter
 
 A few resources to get you started if this is your first Flutter project:
 

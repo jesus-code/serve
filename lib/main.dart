@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:serve/screens/opportunites/opportunities.dart';
 import 'package:serve/screens/profile/profile.dart';
+import 'package:serve/screens/welcome.dart';
+
 import 'data/models.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,14 +15,14 @@ final GoogleSignIn _googleSignIn = GoogleSignIn();
 class MyApp extends StatelessWidget {
   Future<User> getCurrentUser() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
     await _auth.signInWithCredential(credential);
     return User.fromFirebaseUser(await _auth.currentUser());
+//    return new User(firstName: "Bob", lastName: "Smith");
   }
 
   @override
@@ -38,19 +40,19 @@ class MyApp extends StatelessWidget {
               child: TabBar(
                 tabs: [
                   Tab(text: 'Home', icon: Icon(Icons.home)),
-                  Tab(text: 'Opportunities', icon: Icon(Icons.map)),
+                  Tab(text: 'Opportunities', icon: Icon(Icons.search)),
                   Tab(text: 'Profile', icon: Icon(Icons.person)),
                 ],
               ),
             ),
             body: TabBarView(
               children: [
-                Icon(Icons.home),
+//                HomePage(),
+                WelcomePage(),
                 OpportunitiesListPage(),
                 FutureBuilder<User>(
                   future: getCurrentUser(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<User> snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
                         return Text('Press button to start.');
@@ -58,8 +60,7 @@ class MyApp extends StatelessWidget {
                       case ConnectionState.waiting:
                         return Text('Awaiting result...');
                       case ConnectionState.done:
-                        if (snapshot.hasError)
-                          return Text('Error: ${snapshot.error}');
+                        if (snapshot.hasError) return Text('Error: ${snapshot.error}');
                         return ProfilePage(snapshot.data);
                     }
                     return null; // unreachable
